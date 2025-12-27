@@ -10,6 +10,7 @@ from core.prompts import STORY_PROMPT
 from models.story import Story, StoryNode
 from core.models import StoryLLMResponse, StoryNodeLLM
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -17,6 +18,13 @@ class StoryGenerator:
 
     @classmethod
     def _get_llm(cls):
+        serviceurl = os.getenv("CHOREO_OPENAI_CONNECTION_SERVICEURL")
+        consumerkey = os.getenv("CHOREO_OPENAI_CONNECTION_CONSUMERKEY")
+        consumersecret = os.getenv("CHOREO_OPENAI_CONNECTION_CONSUMERSECRET")
+        tokenurl = os.getenv("CHOREO_OPENAI_CONNECTION_TOKENURL")
+
+        if serviceurl:
+            return ChatOpenAI(model="gpt-4o-mini",baseurl=serviceurl)
         return ChatOpenAI(
             model="gpt-4",
         )
